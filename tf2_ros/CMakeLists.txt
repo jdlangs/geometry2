@@ -20,7 +20,7 @@ find_package(message_filters REQUIRED)
 find_package(rcl_interfaces REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_action REQUIRED)
-find_package(rclcpp_components REQUIRED)
+# find_package(rclcpp_components REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_msgs REQUIRED)
 
@@ -64,36 +64,36 @@ ament_target_dependencies(buffer_server
   ${dependencies}
 )
 
-add_library(static_transform_broadcaster_node SHARED
-  src/static_transform_broadcaster_node.cpp
-)
-target_compile_definitions(static_transform_broadcaster_node PRIVATE "STATIC_TRANSFORM_BROADCASTER_BUILDING_DLL")
-target_include_directories(static_transform_broadcaster_node PUBLIC
-  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-  "$<INSTALL_INTERFACE:include>")
-target_link_libraries(static_transform_broadcaster_node ${PROJECT_NAME})
-ament_target_dependencies(static_transform_broadcaster_node
-  "geometry_msgs"
-  "rclcpp"
-  "rclcpp_components"
-  "tf2_msgs"
-)
-rclcpp_components_register_nodes(static_transform_broadcaster_node "tf2_ros::StaticTransformBroadcasterNode")
+# add_library(static_transform_broadcaster_node SHARED
+# src/static_transform_broadcaster_node.cpp
+# )
+# target_compile_definitions(static_transform_broadcaster_node PRIVATE "STATIC_TRANSFORM_BROADCASTER_BUILDING_DLL")
+# target_include_directories(static_transform_broadcaster_node PUBLIC
+# "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+# "$<INSTALL_INTERFACE:include>")
+# target_link_libraries(static_transform_broadcaster_node ${PROJECT_NAME})
+# ament_target_dependencies(static_transform_broadcaster_node
+# "geometry_msgs"
+# "rclcpp"
+  # "rclcpp_components"
+  # "tf2_msgs"
+  # )
+# rclcpp_components_register_nodes(static_transform_broadcaster_node "tf2_ros::StaticTransformBroadcasterNode")
 
 # static_transform_publisher
-add_executable(static_transform_publisher
-  src/static_transform_broadcaster_program.cpp
-)
-target_link_libraries(static_transform_publisher
-  ${PROJECT_NAME}
-  static_transform_broadcaster_node
-)
-ament_target_dependencies(static_transform_publisher
-  "geometry_msgs"
-  "rclcpp"
-  "tf2"
-  "tf2_msgs"
-)
+# add_executable(static_transform_publisher
+# src/static_transform_broadcaster_program.cpp
+# )
+# target_link_libraries(static_transform_publisher
+# ${PROJECT_NAME}
+# static_transform_broadcaster_node
+# )
+# ament_target_dependencies(static_transform_publisher
+# "geometry_msgs"
+# "rclcpp"
+# "tf2"
+# "tf2_msgs"
+# )
 
 add_executable(tf2_echo
   src/tf2_echo.cpp
@@ -125,17 +125,17 @@ install(TARGETS ${PROJECT_NAME}
   RUNTIME DESTINATION bin
 )
 
-install(TARGETS static_transform_broadcaster_node
-  EXPORT static_transform_broadcaster_node
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib
-  RUNTIME DESTINATION bin
-)
+# install(TARGETS static_transform_broadcaster_node
+# EXPORT static_transform_broadcaster_node
+# ARCHIVE DESTINATION lib
+# LIBRARY DESTINATION lib
+# RUNTIME DESTINATION bin
+# )
 
 # install executables
 install(TARGETS
   buffer_server
-  static_transform_publisher
+  # static_transform_publisher
   tf2_echo
   tf2_monitor
   DESTINATION lib/${PROJECT_NAME}
@@ -180,11 +180,11 @@ if(BUILD_TESTING)
   )
   target_link_libraries(${PROJECT_NAME}_test_transform_listener ${PROJECT_NAME})
 
-  ament_add_gtest(${PROJECT_NAME}_test_static_transform_broadcaster test/test_static_transform_broadcaster.cpp)
-  ament_target_dependencies(${PROJECT_NAME}_test_static_transform_broadcaster
-    rclcpp
-  )
-  target_link_libraries(${PROJECT_NAME}_test_static_transform_broadcaster ${PROJECT_NAME})
+  #ament_add_gtest(${PROJECT_NAME}_test_static_transform_broadcaster test/test_static_transform_broadcaster.cpp)
+  #ament_target_dependencies(${PROJECT_NAME}_test_static_transform_broadcaster
+  #rclcpp
+  #)
+  #target_link_libraries(${PROJECT_NAME}_test_static_transform_broadcaster ${PROJECT_NAME})
 
   ament_add_gtest(${PROJECT_NAME}_test_transform_broadcaster test/test_transform_broadcaster.cpp)
   ament_target_dependencies(${PROJECT_NAME}_test_transform_broadcaster
@@ -225,11 +225,11 @@ if(BUILD_TESTING)
 endif()
 
 ament_export_include_directories(include)
-ament_export_libraries(${PROJECT_NAME} static_transform_broadcaster_node)
-ament_export_targets(${PROJECT_NAME} static_transform_broadcaster_node)
+ament_export_libraries(${PROJECT_NAME} ) # static_transform_broadcaster_node)
+ament_export_targets(${PROJECT_NAME} ) # static_transform_broadcaster_node)
 ament_export_dependencies(
   ${dependencies}
   rcl_interfaces
-  rclcpp_components
+  # rclcpp_components
 )
 ament_package()
